@@ -1,0 +1,9 @@
+Bienvenido al Campus del saber.
+Aqui aprenderas y pondras aprueba
+tus concimientos.
+END
+Dirijete al laboratorio 
+y habla con Bulbasaur
+El te dira que hacer.
+
+END

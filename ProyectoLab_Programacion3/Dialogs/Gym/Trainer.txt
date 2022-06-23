@@ -1,0 +1,13 @@
+Bienvenido al Gimnasio Pokemon
+Pondre a prueba tu conocimiento
+Si me ganas te dare una medalla
+
+END
+
+Asi que, estas listo para pelear?
+
+END
+Puedes comenzar presionando
+la letra E
+
+END

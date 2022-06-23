@@ -1,0 +1,6 @@
+..............
+Presiona Space para cambiar de dialogo
+END
+Escuha el audio o presion ESC 
+para entrar al mapa.
+END

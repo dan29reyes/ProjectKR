@@ -1,0 +1,10 @@
+Bienvenido al Campus del saber.
+ Puedes explorarlo y visitar distintos.
+
+END
+
+Deberias visitar el Laboratorio ahi
+ podrasprobar tus conocimientos.
+
+END
+fin del texto.

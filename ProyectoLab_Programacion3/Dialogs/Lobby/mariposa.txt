@@ -1,0 +1,10 @@
+Hola,miro que eres nuevo aqui
+END
+Ten 1 vida extra
+END
+Y ten cuidado que los juegos
+END
+te quitan vida si pierdes!!
+END 
+Mucha Suerte!!!!!
+END

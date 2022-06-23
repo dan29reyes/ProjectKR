@@ -1,0 +1,148 @@
+#include <iostream>
+#include <string>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <Windows.h>
+#include <stdlib.h>
+
+using std::cout;
+using std::string;
+int ciencia();
+void dibujaruleta(ALLEGRO_BITMAP*, int, int);
+void dibujaroak(ALLEGRO_BITMAP*, int);
+void pregunta(string, int);
+int ancho = 1024, alto = 768, xo = 0, y = 0, aux = 1, xr = 0, yr = 0;
+ALLEGRO_FONT* font;
+ALLEGRO_DISPLAY* ventana;
+ALLEGRO_TIMER* segundoTimer;
+ALLEGRO_TIMER* fps;
+ALLEGRO_EVENT_QUEUE* event_queue;
+
+
+int main() {
+	if (!al_init()) {
+		al_show_native_message_box(NULL, "ERROR CRITICO", "ERROR: 404", "No se pudo cargar correctamente la libreria alelgro", NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		return -1;
+	}
+	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
+	al_install_mouse();
+	al_init_image_addon();
+
+	ventana = al_create_display(ancho, alto);
+
+	int ancho_W = GetSystemMetrics(SM_CXSCREEN);
+	int alto_W = GetSystemMetrics(SM_CYSCREEN);
+
+	al_set_window_title(ventana, "Mi Juego");
+	al_set_window_position(ventana, ancho_W / 2 - ancho / 2, alto_W / 2 - alto / 2);
+
+	segundoTimer = al_create_timer(1.0);
+	fps = al_create_timer(1.0 / 60);
+	event_queue = al_create_event_queue();
+
+	al_register_event_source(event_queue, al_get_timer_event_source(fps));
+	al_register_event_source(event_queue, al_get_timer_event_source(segundoTimer));
+	al_register_event_source(event_queue, al_get_mouse_event_source());
+	al_start_timer(fps);
+	al_start_timer(segundoTimer);
+	ciencia();
+	return 0;
+}
+
+int ciencia() {
+	ALLEGRO_BITMAP* oak = al_load_bitmap("imagenes/Oak.png");
+	ALLEGRO_BITMAP* Fondo = al_load_bitmap("imagenes/ciencia.png");
+	ALLEGRO_BITMAP* ruleta = al_load_bitmap("imagenes/ruleta.png");
+	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_TIMER* rultime = NULL;
+	font = al_load_ttf_font("fuente/pokefuente.ttf", 40, ALLEGRO_ALIGN_CENTRE);
+	timer = al_create_timer(1.0 / 60);
+	rultime = al_create_timer(1.0 / 60);
+	al_start_timer(rultime);
+	al_start_timer(timer);
+
+	al_draw_bitmap(Fondo, 0, 0, 0);
+
+	while (true) {
+		ALLEGRO_EVENT Evento;
+		al_wait_for_event(event_queue, &Evento);
+
+		if (al_get_timer_count(timer) == 120) {
+			al_set_timer_count(timer, 0);
+		}
+
+		if (al_get_timer_count(rultime) == 120) {
+			al_set_timer_count(rultime, 0);
+		}
+
+		al_flip_display();
+		xo = (al_get_timer_count(timer) > 60) ? 0 : 1;
+
+		if (al_get_timer_count(rultime) > 90) {
+			xr = 0;
+			yr = 0;
+		}
+		else if (al_get_timer_count(rultime) > 60) {
+			xr = 1;
+			yr = 0;
+		}
+		else if (al_get_timer_count(rultime) > 30) {
+			xr = 0;
+			yr = 1;
+		}
+		else if (al_get_timer_count(rultime) > 0) {
+			xr = 1;
+			yr = 1;
+		}
+
+		if (aux == 1) {
+			al_draw_filled_rectangle(136, 129, 900, 139 * 2, al_map_rgb(0, 0, 0));
+			pregunta("Entre los siguientes renacentistas seleccione, uno de los", 139);
+			pregunta("precursores filosofo-cientifico del heliocentrismo", 139 + 36);
+			pregunta("(teoria que afirma que el sol es el centro del universo) : ", 139 + 72);
+		}
+		else if (aux == 2) {
+			al_draw_filled_rectangle(136, 129, 900, 139 * 2, al_map_rgb(0, 0, 0));
+			pregunta("El metodo cientifico se introduce por el interes de tres", 139);
+			pregunta("filosofos. Entre los siguientes uno de los mencionados no", 139 + 36);
+			pregunta("es precursor del metodo cientifico : ", 139 + 72);
+		}
+		else if (aux == 3) {
+			al_draw_filled_rectangle(136, 129, 820, 180, al_map_rgb(0, 0, 0));
+			pregunta("Es uno de los precursores del pensamiento Moderno: ", 139);
+		}
+		else if (aux == 4) {
+			al_draw_filled_rectangle(136, 129, 900, 139 * 2, al_map_rgb(0, 0, 0));
+			pregunta("De los siguientes filosofos niega el geocentrismo", 139);
+			pregunta("(teoria que afirma que el centro de nuestro sistema", 139 + 36);
+			pregunta("solar es la tierra) : ", 139 + 72);
+		}
+		else if (aux == 5) {
+			al_draw_filled_rectangle(136, 129, 770, 230, al_map_rgb(0, 0, 0));
+			pregunta("Uno de los inventos que suscito un conocimiento", 139);
+			pregunta("ilimitado, fue el de Gutenberg : ", 145 + 36);
+
+		}
+
+		dibujaroak(oak, xo);
+		dibujaruleta(ruleta, xr, yr);
+	}
+}
+
+void dibujaroak(ALLEGRO_BITMAP* _sprite, int _x) {
+	al_draw_bitmap_region(_sprite, 110 * _x, 256 * 0, 110, 256, 811, 420, 0);
+}
+
+void pregunta(string _msg, int _y) {
+	al_draw_text(font, al_map_rgb(255, 255, 255), 156, _y, 0, _msg.c_str());
+}
+
+void dibujaruleta(ALLEGRO_BITMAP* _sprite, int _xr, int _yr) {
+	al_draw_bitmap_region(_sprite, 150 * _xr, 150 * _yr, 150, 150, 301, 520, 0);
+}

@@ -1,0 +1,18 @@
+Hola soy el profesor Oak. 
+Bienvenido a la clase de filosofía.
+Te introduciré a la ruleta del
+ conocimiento, aqui pondrás 
+a prueba tu conocimiento como 
+entrenador  pokemon.
+
+END
+
+Dispondrás de un tiempo límite para 
+completar las preguntas.
+END
+Gira la ruleta y contestaras un serie 
+de preguntas de Diferentes temas.
+END
+
+Suerte !!!
+END
